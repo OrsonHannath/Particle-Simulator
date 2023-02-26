@@ -14,6 +14,15 @@
 # EXTERNAL cache entries
 ########################
 
+//Value Computed by CMake
+BlankSDL2_BINARY_DIR:STATIC=C:/Users/User/Desktop/Portfolio/ParticleSimulator/cmake-build-debug
+
+//Value Computed by CMake
+BlankSDL2_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+BlankSDL2_SOURCE_DIR:STATIC=C:/Users/User/Desktop/Portfolio/ParticleSimulator
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=D:/Jetbrains Suite/CLion 2021.3.4/bin/mingw/bin/addr2line.exe
 
