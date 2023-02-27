@@ -4,41 +4,41 @@
 
 #include "Colour.h"
 
-void Colour::SetRed(float red_) {
+void Colour::SetRed(int red_) {
 
     red = red_;
 }
 
-void Colour::SetGreen(float green_) {
+void Colour::SetGreen(int green_) {
 
     green = green_;
 }
 
-void Colour::SetBlue(float blue_) {
+void Colour::SetBlue(int blue_) {
 
     blue = blue_;
 }
 
-void Colour::SetAlpha(float alpha_) {
+void Colour::SetAlpha(int alpha_) {
 
     alpha = alpha_;
 }
 
-float Colour::GetRed() {
+int Colour::GetRed() {
 
     return red;
 }
 
-float Colour::GetGreen() {
+int Colour::GetGreen() {
 
     return green;
 }
 
-float Colour::GetBlue() {
+int Colour::GetBlue() {
      return blue;
 }
 
-float Colour::GetAlpha() {
+int Colour::GetAlpha() {
 
     return alpha;
 }

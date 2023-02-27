@@ -17,9 +17,13 @@ private:
     SDL_Renderer *renderer = NULL; // Pointer to Renderer
     SDL_Window *window = NULL; // Pointer to Window
 public:
-    Framework(int height_, int width_); // Constructor
+    Framework(int width_, int height_); // Constructor
     ~Framework(); // Destructor
     void GraphicsUpdate(); // Graphics Update
+    void ClearGraphics(); // Clears Graphics
+
+    int GetWidth();
+    int GetHeight();
 
     // Drawing Functions
     void DrawCircle(int xPos, int yPos, int size, Colour colour);

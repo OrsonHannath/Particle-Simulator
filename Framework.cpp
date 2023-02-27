@@ -5,7 +5,7 @@
 #include "Framework.h"
 
 // Constructor for Framework Class
-Framework::Framework(int height_, int width_) : height(height_), width(width_){
+Framework::Framework(int width_, int height_) : height(height_), width(width_){
 
     SDL_Init(SDL_INIT_VIDEO); // Initialize SDL as Video
     SDL_CreateWindowAndRenderer(width, height, 0, &window, &renderer); // Create the window and renderer
@@ -24,8 +24,13 @@ Framework::~Framework() {
 
 void Framework::GraphicsUpdate() {
 
-    // Update the graphics
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer); // Update the graphics
+}
+
+void Framework::ClearGraphics() {
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0); // Set the draw colour to black
+    SDL_RenderClear(renderer); // Clear the renderer
 }
 
 void Framework::DrawCircle(int xPos, int yPos, int size, Colour colour) {
@@ -80,4 +85,14 @@ void Framework::DrawSquare(int xPos, int yPos, float size, Colour colour) {
 void Framework::DrawLine(int sXPos, int sYPos, int eXPos, int eYPos, int thickness, Colour colour) {
 
 
+}
+
+int Framework::GetWidth() {
+
+    return width;
+}
+
+int Framework::GetHeight() {
+
+    return height;
 }
