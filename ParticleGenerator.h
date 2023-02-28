@@ -6,6 +6,7 @@
 #define PARTICLESIMULATOR_PARTICLEGENERATOR_H
 
 #include <vector>
+#include <map>
 #include "Particle.h"
 #include "Vector2.h"
 #include "Vector4.h"
@@ -22,6 +23,12 @@ public:
     void GenerateParticles();
     void GenerateParticles(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange);
     void UpdateParticles(float deltaTime);
+
+    void UpdateParticleCollisionsBrute();
+    void UpdateParticleCollisionsSweepNPrune();
+    void UpdateParticleCollisionsGridSpacePartitioning();
+    void UpdateParticleCollisionsKDTrees();
+    void UpdateParticleCollisionsBoundingVolumeHierarchies();
 };
 
 

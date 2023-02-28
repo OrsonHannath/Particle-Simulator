@@ -16,10 +16,13 @@ private:
     Vector2 acceleration;
     Vector2* gravity;
     Colour colour = Colour(255, 0, 255, 255);
-    int size = 10;
+    Colour collisionColour = Colour(255, 0, 255, 255);
+    int size = 100;
     int mass = 10;
     float elasticity = 0.5; // 0 Means no Bounce, 1 Means full Bounce
     float friction = 0.2; // 0 Means full Friction, 1 Means no Friction
+    bool collided = false;
+    Particle* collidedParticle = nullptr;
 public:
     Particle(Vector2 position_, Vector2* gravity_) : position(position_), velocity(Vector2(0, 0)),
                                                      acceleration(Vector2(0,0)), colour(RandomColour()), gravity(gravity_){};
@@ -49,17 +52,19 @@ public:
 
     void UpdateParticle(Framework* fw, float deltaTime);
     void BoundaryCollisions(Framework* fw);
-    void ParticleCollision(Particle* collisionP);
+    bool ParticleCollision(Particle* collisionP);
 
     void SetPosition(Vector2 position_);
     void SetVelocity(Vector2 velocity_);
     void SetAcceleration(Vector2 acceleration_);
+    void SetCollided(bool collided_);
 
     float CalculateBounceCoefficient();
 
     Vector2* GetPosition();
     Vector2* GetVelocity();
     Vector2* GetAcceleration();
+    Particle* GetCollidedParticle();
 };
 
 

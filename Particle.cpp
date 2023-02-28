@@ -78,18 +78,29 @@ void Particle::UpdateParticle(Framework* fw, float deltaTime){
     BoundaryCollisions(fw);
 
     // Update the particle graphics
-    fw->DrawCircle(position.GetX(), position.GetY(), size, colour);
+    if(!collided){
+
+        fw->DrawCircle(position.GetX(), position.GetY(), size, colour);
+    }else{
+
+        fw->DrawCircle(position.GetX(), position.GetY(), size, collisionColour);
+        collided = false;
+    }
 }
 
 // This checks if two particles are colliding and then adjusts their velocities
-void Particle::ParticleCollision(Particle *collisionP) {
+bool Particle::ParticleCollision(Particle *collisionP) {
+
+    //std::cout << VectorDistance(position, collisionP->position) << std::endl;
 
     // Check if the particles are colliding
     if(VectorDistance(position, collisionP->position) <= (size/2) + (collisionP->size/2)){
 
         // Ensure particles have mass otherwise return
         if (mass == 0. && collisionP->mass == 0.){
-            return;
+
+            std::cout << "No Mass Collision" << std::endl;
+            return false;
         }
 
         // Determine the Normal Vector of Collision
@@ -117,8 +128,22 @@ void Particle::ParticleCollision(Particle *collisionP) {
         this->SetVelocity(VectorAddition(thisVelNormal, thisVelTangent));
         collisionP->SetVelocity(VectorAddition(collisionVelNormal, collisionVelTangent));
 
+        // Set collided vars
+        collided = true;
+        collidedParticle = collisionP;
+        collisionP->SetCollided(true);
+        collisionP->collidedParticle = this;
+
         //std::cout << "collision" << std::endl;
+        return true;
     }
+
+    return false;
+}
+
+void Particle::SetCollided(bool collided_) {
+
+    collided = collided_;
 }
 
 void Particle::SetPosition(Vector2 position_){
@@ -134,6 +159,11 @@ void Particle::SetVelocity(Vector2 velocity_){
 void Particle::SetAcceleration(Vector2 acceleration_){
 
     acceleration = acceleration_;
+}
+
+Particle* Particle::GetCollidedParticle() {
+
+    return collidedParticle;
 }
 
 Vector2* Particle::GetPosition(){

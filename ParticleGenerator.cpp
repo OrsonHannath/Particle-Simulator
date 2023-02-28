@@ -43,3 +43,47 @@ void ParticleGenerator::UpdateParticles(float deltaTime) {
         particles[i].UpdateParticle(fw, deltaTime);
     }
 }
+
+void ParticleGenerator::UpdateParticleCollisionsBrute(){
+
+    // Each particle should only need to collide with another once per update
+    std::map<Vector2*, int> processedCollisions;
+
+    for (int i = 0; i < particles.size(); i++){
+        for (int j = 0; j < particles.size(); j++){
+
+            if(i != j && particles[i].GetCollidedParticle() != &particles[j]){
+
+                bool collided = particles[i].ParticleCollision(&particles[j]);
+            }
+
+            /*Vector2 collisionPair = Vector2(i, j);
+            Vector2 collisionPairInv = Vector2(j, i);
+
+            if (i != j && processedCollisions.find(&collisionPair) == processedCollisions.end()){
+
+                bool collided = particles[i].ParticleCollision(&particles[j]);
+                if (collided) {
+                    processedCollisions[&collisionPair] = 1;
+                    processedCollisions[&collisionPairInv] = 1;
+                }
+            }*/
+        }
+    }
+}
+
+void ParticleGenerator::UpdateParticleCollisionsSweepNPrune(){
+
+}
+
+void ParticleGenerator::UpdateParticleCollisionsGridSpacePartitioning(){
+
+}
+
+void ParticleGenerator::UpdateParticleCollisionsKDTrees(){
+
+}
+
+void ParticleGenerator::UpdateParticleCollisionsBoundingVolumeHierarchies(){
+
+}
