@@ -14,31 +14,34 @@ private:
     Vector2 position;
     Vector2 velocity;
     Vector2 acceleration;
+    Vector2* gravity;
     Colour colour = Colour(255, 0, 255, 255);
     int size = 10;
     int mass = 10;
+    float elasticity = 0.5; // 0 Means no Bounce, 1 Means full Bounce
+    float friction = 0.2; // 0 Means full Friction, 1 Means no Friction
 public:
-    Particle(Vector2 position_, Vector2 velocity_, Vector2 acceleration_) : position(position_), velocity(velocity_),
+    Particle(Vector2 position_, Vector2 velocity_, Vector2 acceleration_, Vector2* gravity_) : position(position_), velocity(velocity_),
                                                                             acceleration(acceleration_),
-                                                                            colour(RandomColour()){};
+                                                                            colour(RandomColour()), gravity(gravity_){};
 
-    Particle(Vector2 position_, Vector2 velocity_) : position(position_), velocity(velocity_),
+    Particle(Vector2 position_, Vector2 velocity_, Vector2* gravity_) : position(position_), velocity(velocity_),
                                                                           acceleration(Vector2(0, 0)),
-                                                                          colour(RandomColour()){};
+                                                                          colour(RandomColour()), gravity(gravity_){};
 
-    Particle(Vector2 position_, int size_, int mass_) : position(position_), size(size_), mass(mass_),
+    Particle(Vector2 position_, int size_, int mass_, Vector2* gravity_) : position(position_), size(size_), mass(mass_),
                                                           velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
-                                                          colour(RandomColour()){};
+                                                          colour(RandomColour()), gravity(gravity_){};
 
-    Particle(Vector2 position_, int size_, int mass_, Vector2 velocity_) : position(position_), size(size_), mass(mass_),
+    Particle(Vector2 position_, int size_, int mass_, Vector2 velocity_, Vector2* gravity_) : position(position_), size(size_), mass(mass_),
                                                           velocity(velocity_), acceleration(Vector2(0,0)),
-                                                          colour(RandomColour()){};
+                                                          colour(RandomColour()), gravity(gravity_){};
 
-    Particle(Vector2 position_, int size_) :  position(position_), size(size_), velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
-                                              colour(RandomColour()){};
+    Particle(Vector2 position_, int size_, Vector2* gravity_) :  position(position_), size(size_), velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
+                                              colour(RandomColour()), gravity(gravity_){};
 
-    Particle(Vector2 position_) :  position(position_), velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
-                                   colour(RandomColour()){};
+    Particle(Vector2 position_, Vector2* gravity_) :  position(position_), velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
+                                   colour(RandomColour()), gravity(gravity_){};
 
     void UpdateParticle(Framework* fw, float deltaTime);
     void BoundaryCollisions(Framework* fw);
@@ -47,6 +50,8 @@ public:
     void SetPosition(Vector2 position_);
     void SetVelocity(Vector2 velocity_);
     void SetAcceleration(Vector2 acceleration_);
+
+    float CalculateBounceCoefficient();
 
     Vector2* GetPosition();
     Vector2* GetVelocity();

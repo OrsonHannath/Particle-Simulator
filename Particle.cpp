@@ -5,34 +5,70 @@
 #include "Particle.h"
 #include "VectorMath.h"
 
+float Particle::CalculateBounceCoefficient(){
+
+    // Determine the Normal Vector of Collision
+    Vector2 normalVec = VectorSubtraction(VectorAddition(position, velocity), position); // Normal Vector of Collision
+    Vector2 unitNormalVec = VectorUnit(normalVec); // Unit Normal Vector of Collision
+    Vector2 unitTangentVec = Vector2(-unitNormalVec.GetY(), unitNormalVec.GetX()); // Unit Tangent Vector of Collision
+
+    float angle = atan(unitTangentVec.GetY() / unitTangentVec.GetX());
+
+    //std::cout << "Bounce Angle : " << (angle * (180/3.14159)) << std::endl;
+    return cos(angle) * elasticity;
+}
+
 void Particle::BoundaryCollisions(Framework* fw){
 
     // Detect Left Boundary Collision
     if (position.GetX() - (size/2) <= -(fw->GetWidth()/2) && velocity.GetX() < 0){
 
-        velocity.SetX(-velocity.GetX()); // Invert X if Collision
+        // Calculate a new X velocity
+        velocity.SetX(-(velocity.GetX()) * CalculateBounceCoefficient()); // Invert X if Collision
+        position.SetX(-(fw->GetWidth()/2) + (size/2));
+
+        // Calculate Friction
+        velocity.SetY(velocity.GetY() * (1 - friction));
     }
 
     // Detect Right Boundary Collision
     if (position.GetX() + (size/2) >= (fw->GetWidth()/2) && velocity.GetX() > 0){
 
-        velocity.SetX(-velocity.GetX()); // Invert X if Collision
+        // Calculate a new X velocity
+        velocity.SetX(-velocity.GetX() * CalculateBounceCoefficient()); // Invert X if Collision
+        position.SetX((fw->GetWidth()/2) - (size/2));
+
+        // Calculate Friction
+        velocity.SetY(velocity.GetY() * (1 - friction));
     }
 
     // Detect Top Boundary Collision
     if (position.GetY() + (size/2) >= (fw->GetHeight()/2) && velocity.GetY() > 0){
 
-        velocity.SetY(-velocity.GetY()); // Invert Y if Collision
+        // Calculate a new Y velocity
+        velocity.SetY(-velocity.GetY() * CalculateBounceCoefficient()); // Invert Y if Collision
+        position.SetY((fw->GetHeight()/2) - (size/2));
+
+        // Calculate Friction
+        velocity.SetX(velocity.GetX() * (1 - friction));
     }
 
     // Detect Bottom Boundary Collision
     if (position.GetY() - (size/2) <= -(fw->GetHeight()/2) && velocity.GetY() < 0){
 
-        velocity.SetY(-velocity.GetY()); // Invert Y if Collision
+        // Calculate a new Y velocity
+        velocity.SetY(-velocity.GetY() * CalculateBounceCoefficient()); // Invert Y if Collision
+        position.SetY(-(fw->GetHeight()/2) + (size/2));
+
+        // Calculate Friction
+        velocity.SetX(velocity.GetX() * (1 - friction));
     }
 }
 
 void Particle::UpdateParticle(Framework* fw, float deltaTime){
+
+    // Apply Gravity
+    this->SetAcceleration(*gravity);
 
     // Update the position of the particle
     velocity = VectorAddition(velocity, VectorMultiply(acceleration, deltaTime)); // Update Velocity
