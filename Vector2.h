@@ -12,6 +12,7 @@ private:
     float y;
 public:
     Vector2(float x_, float y_) : x(x_), y(y_){};
+    Vector2() : x(0), y(0){};
 
     void SetPosition(float x_, float y_);
     void SetX(float x_);

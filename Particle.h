@@ -16,7 +16,7 @@ private:
     Vector2 acceleration;
     Colour colour = Colour(255, 0, 255, 255);
     int size = 10;
-    int weight = 10;
+    int mass = 10;
 public:
     Particle(Vector2 position_, Vector2 velocity_, Vector2 acceleration_) : position(position_), velocity(velocity_),
                                                                             acceleration(acceleration_),
@@ -26,8 +26,12 @@ public:
                                                                           acceleration(Vector2(0, 0)),
                                                                           colour(RandomColour()){};
 
-    Particle(Vector2 position_, int size_, int weight_) : position(position_), size(size_), weight(weight_),
+    Particle(Vector2 position_, int size_, int mass_) : position(position_), size(size_), mass(mass_),
                                                           velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
+                                                          colour(RandomColour()){};
+
+    Particle(Vector2 position_, int size_, int mass_, Vector2 velocity_) : position(position_), size(size_), mass(mass_),
+                                                          velocity(velocity_), acceleration(Vector2(0,0)),
                                                           colour(RandomColour()){};
 
     Particle(Vector2 position_, int size_) :  position(position_), size(size_), velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
@@ -38,6 +42,7 @@ public:
 
     void UpdateParticle(Framework* fw, float deltaTime);
     void BoundaryCollisions(Framework* fw);
+    void ParticleCollision(Particle* collisionP);
 
     void SetPosition(Vector2 position_);
     void SetVelocity(Vector2 velocity_);

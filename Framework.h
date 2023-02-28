@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include <cmath>
 #include "Colour.h"
+#include "Vector2.h"
 
 class Framework {
 private:
@@ -24,6 +25,9 @@ public:
 
     int GetWidth();
     int GetHeight();
+
+    Vector2 WorldSpaceToFrameworkSpace(int xPos, int yPos);
+    Vector2 WorldSpaceToFrameworkSpace(Vector2 pos_);
 
     // Drawing Functions
     void DrawCircle(int xPos, int yPos, int size, Colour colour);
