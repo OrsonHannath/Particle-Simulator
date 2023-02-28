@@ -33,6 +33,13 @@ void Framework::ClearGraphics() {
     SDL_RenderClear(renderer); // Clear the renderer
 }
 
+void Framework::UpdateTitle(float deltaTime) {
+
+    int fps = 1/(deltaTime);
+    std::string title = "Particle Simulator: " + std::to_string(fps) + "fps";
+    SDL_SetWindowTitle(window, title.c_str());
+}
+
 // Returns the x and y position converted from SDL2 framework space to world space
 Vector2 Framework::WorldSpaceToFrameworkSpace(int xPos, int yPos){
 

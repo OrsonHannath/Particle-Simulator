@@ -8,6 +8,7 @@
 
 #include <SDL.h>
 #include <cmath>
+#include <iostream>
 #include "Colour.h"
 #include "Vector2.h"
 
@@ -22,6 +23,7 @@ public:
     ~Framework(); // Destructor
     void GraphicsUpdate(); // Graphics Update
     void ClearGraphics(); // Clears Graphics
+    void UpdateTitle(float deltaTime);
 
     int GetWidth();
     int GetHeight();

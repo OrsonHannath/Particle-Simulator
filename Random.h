@@ -8,7 +8,7 @@
 #include <random>
 #include <iostream>
 
-int RandomNumber(int startRange, int endRange);
-
+int RandomInt(int startRange, int endRange);
+float RandomFloat(float startRange, float endRange, int decimals);
 
 #endif //PARTICLESIMULATOR_RANDOM_H

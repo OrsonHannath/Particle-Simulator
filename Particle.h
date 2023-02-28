@@ -21,6 +21,13 @@ private:
     float elasticity = 0.5; // 0 Means no Bounce, 1 Means full Bounce
     float friction = 0.2; // 0 Means full Friction, 1 Means no Friction
 public:
+    Particle(Vector2 position_, Vector2* gravity_) : position(position_), velocity(Vector2(0, 0)),
+                                                     acceleration(Vector2(0,0)), colour(RandomColour()), gravity(gravity_){};
+
+    Particle(Vector2 position_, Vector2 velocity_, int size_, int mass_, float elasticity_, float friction_,
+                                Vector2* gravity_) : position(position_), velocity(velocity_), size(size_),
+                                mass(mass_), elasticity(elasticity_), friction(friction_), gravity(gravity_), colour(RandomColour()){};
+
     Particle(Vector2 position_, Vector2 velocity_, Vector2 acceleration_, Vector2* gravity_) : position(position_), velocity(velocity_),
                                                                             acceleration(acceleration_),
                                                                             colour(RandomColour()), gravity(gravity_){};
@@ -39,9 +46,6 @@ public:
 
     Particle(Vector2 position_, int size_, Vector2* gravity_) :  position(position_), size(size_), velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
                                               colour(RandomColour()), gravity(gravity_){};
-
-    Particle(Vector2 position_, Vector2* gravity_) :  position(position_), velocity(Vector2(0, 0)), acceleration(Vector2(0,0)),
-                                   colour(RandomColour()), gravity(gravity_){};
 
     void UpdateParticle(Framework* fw, float deltaTime);
     void BoundaryCollisions(Framework* fw);

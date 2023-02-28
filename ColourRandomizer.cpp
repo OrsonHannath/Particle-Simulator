@@ -6,5 +6,5 @@
 
 Colour RandomColour(){
 
-    return {RandomNumber(0, 255), RandomNumber(0, 255), RandomNumber(0, 255), 255};
+    return {RandomInt(0, 255), RandomInt(0, 255), RandomInt(0, 255), 255};
 }
