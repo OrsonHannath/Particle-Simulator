@@ -68,7 +68,7 @@ void Particle::BoundaryCollisions(Framework* fw){
 void Particle::UpdateParticle(Framework* fw, float deltaTime){
 
     // Apply Gravity
-    this->SetAcceleration(*gravity);
+    this->SetAcceleration(VectorAddition(acceleration, VectorMultiply(*gravity, mass)));
 
     // Update the position of the particle
     velocity = VectorAddition(velocity, VectorMultiply(acceleration, deltaTime)); // Update Velocity
