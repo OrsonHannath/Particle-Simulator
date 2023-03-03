@@ -51,6 +51,7 @@ public:
                                               colour(RandomColour()), gravity(gravity_){};
 
     void UpdateParticle(Framework* fw, float deltaTime);
+    void UpdateParticleGraphics(Framework* fw);
     void BoundaryCollisions(Framework* fw);
     bool ParticleCollision(Particle* collisionP);
 
@@ -61,6 +62,8 @@ public:
 
     float CalculateBounceCoefficient();
 
+    int GetSize();
+    float GetRadius();
     Vector2* GetPosition();
     Vector2* GetVelocity();
     Vector2* GetAcceleration();

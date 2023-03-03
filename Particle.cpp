@@ -68,7 +68,7 @@ void Particle::BoundaryCollisions(Framework* fw){
 void Particle::UpdateParticle(Framework* fw, float deltaTime){
 
     // Apply Gravity
-    this->SetAcceleration(VectorAddition(acceleration, VectorMultiply(*gravity, mass)));
+    this->SetAcceleration(VectorMultiply(*gravity, mass));
 
     // Update the position of the particle
     velocity = VectorAddition(velocity, VectorMultiply(acceleration, deltaTime)); // Update Velocity
@@ -76,6 +76,9 @@ void Particle::UpdateParticle(Framework* fw, float deltaTime){
 
     // Detect Boundary Collision
     BoundaryCollisions(fw);
+}
+
+void Particle::UpdateParticleGraphics(Framework *fw) {
 
     // Update the particle graphics
     if(!collided){
@@ -93,8 +96,11 @@ bool Particle::ParticleCollision(Particle *collisionP) {
 
     //std::cout << VectorDistance(position, collisionP->position) << std::endl;
 
+    float distanceBetweenPositions = VectorDistance(position, collisionP->position);
+    float distanceBetweenParticles = distanceBetweenPositions - ((size/2) + (collisionP->size/2));
+
     // Check if the particles are colliding
-    if(VectorDistance(position, collisionP->position) <= (size/2) + (collisionP->size/2)){
+    if(distanceBetweenPositions <= (size/2) + (collisionP->size/2)){
 
         // Ensure particles have mass otherwise return
         if (mass == 0. && collisionP->mass == 0.){
@@ -102,6 +108,17 @@ bool Particle::ParticleCollision(Particle *collisionP) {
             std::cout << "No Mass Collision" << std::endl;
             return false;
         }
+
+        // Move both particles out of each other with a small spacing
+        float distToMove = -(distanceBetweenParticles/2);
+        Vector2 origNormalVec = VectorSubtraction(collisionP->position, position);
+        Vector2 origUnitNormalVec = VectorUnit(origNormalVec);
+
+        // Move the colliding particle along the positive unit normal vector by distToMove
+        collisionP->SetPosition(VectorAddition(collisionP->position, VectorMultiply(origUnitNormalVec, distToMove)));
+
+        // Move this particle along the negative unit normal vector by distToMove
+        SetPosition(VectorSubtraction(position, VectorMultiply(origUnitNormalVec, distToMove)));
 
         // Determine the Normal Vector of Collision
         Vector2 normalVec = VectorSubtraction(collisionP->position, position); // Normal Vector of Collision
@@ -179,4 +196,14 @@ Vector2* Particle::GetVelocity(){
 Vector2* Particle::GetAcceleration(){
 
     return &acceleration;
+}
+
+int Particle::GetSize() {
+
+    return size;
+}
+
+float Particle::GetRadius(){
+
+    return size/2.0;
 }

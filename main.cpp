@@ -8,26 +8,30 @@
 #include "ParticleGenerator.h"
 #include "Vector2.h"
 #include "Vector4.h"
+#include "Enumerators.h"
 
-// Enums
-enum CollisionPhysicsTypes {Brute, SweepNPrune, GridSpacePartitioning, KDTrees, BoundingVolumeHierarchies};
+/* Bugs
+ * Render Engine is Slow as Hell
+ */
 
 // Global Parameter
 int viewWidth = 1200;
 int viewHeight = 600;
-Vector2 gravity = Vector2(0, 0);
+Vector2 gravity = Vector2(0, -9.8); // Gravity Breaks Simulation
 
 // Particle Generation Parameters
-CollisionPhysicsTypes collisionPhysicsType = Brute;
+CollisionPhysicsTypes collisionPhysicsType = SweepNPrune;
+int physicsSteps = 24; // Number of collision checks per frame
+bool shouldRender = true;
 bool detailedParticles = true;
-int numOfParticles = 15; // Breaks with more than 4 particles
+int numOfParticles = 100;
 
 Vector4 positionRange = Vector4(-(viewWidth/2), -(viewHeight/2), (viewWidth/2), (viewHeight/2));
 Vector4 velocityRange = Vector4(-50, -50, 50, 50);
 Vector2 sizeRange = Vector2(10, 75);
 Vector2 massRange = Vector2(5, 10);
 Vector2 elasticityRange = Vector2(1, 1);
-Vector2 frictionRange = Vector2(0, 0);
+Vector2 frictionRange = Vector2(0.1, 0.2);
 
 // Variables
 int time_ = 0;
@@ -58,26 +62,7 @@ int main(int argc, char* args[]) {
         fw.UpdateTitle(deltaTime); // Update the title to include FPS
 
         // Update the Particles
-        particleGenerator.UpdateParticles(deltaTime);
-
-        // Update the Particles Collisions
-        switch (collisionPhysicsType) {
-            case Brute:
-                particleGenerator.UpdateParticleCollisionsBrute();
-                break;
-            case SweepNPrune:
-                particleGenerator.UpdateParticleCollisionsSweepNPrune();
-                break;
-            case GridSpacePartitioning:
-                particleGenerator.UpdateParticleCollisionsGridSpacePartitioning();
-                break;
-            case KDTrees:
-                particleGenerator.UpdateParticleCollisionsKDTrees();
-                break;
-            case BoundingVolumeHierarchies:
-                particleGenerator.UpdateParticleCollisionsBoundingVolumeHierarchies();
-                break;
-        }
+        particleGenerator.UpdateParticles(deltaTime, collisionPhysicsType, physicsSteps, shouldRender);
 
         // Update Graphics
         fw.GraphicsUpdate();

@@ -10,6 +10,8 @@
 #include "Particle.h"
 #include "Vector2.h"
 #include "Vector4.h"
+#include "Enumerators.h"
+#include "MapSort.h"
 
 class ParticleGenerator {
 private:
@@ -22,7 +24,7 @@ public:
 
     void GenerateParticles();
     void GenerateParticles(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange);
-    void UpdateParticles(float deltaTime);
+    void UpdateParticles(float deltaTime, CollisionPhysicsTypes collisionPhysicsType, int physicsSteps, bool shouldRender);
 
     void UpdateParticleCollisionsBrute();
     void UpdateParticleCollisionsSweepNPrune();

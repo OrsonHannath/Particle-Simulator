@@ -36,19 +36,51 @@ void ParticleGenerator::GenerateParticles(Vector4 positionRange, Vector4 velocit
     }
 }
 
-void ParticleGenerator::UpdateParticles(float deltaTime) {
+void ParticleGenerator::UpdateParticles(float deltaTime, CollisionPhysicsTypes collisionPhysicsType, int physicsSteps, bool shouldRender) {
 
-    for(int i = 0; i < particles.size(); i++){
+    // Update the particle physics n number of times in this frame
+    for (int s = 0; s < physicsSteps; s++){
 
-        particles[i].UpdateParticle(fw, deltaTime);
+        float stepDeltaTime = (deltaTime / physicsSteps);
+
+        //Update the Particles
+        for(int i = 0; i < particles.size(); i++){
+
+            particles[i].UpdateParticle(fw, stepDeltaTime);
+        }
+
+        // Update the Particles Collisions
+        switch (collisionPhysicsType) {
+            case Brute:
+                UpdateParticleCollisionsBrute();
+                break;
+            case SweepNPrune:
+                UpdateParticleCollisionsSweepNPrune();
+                break;
+            case GridSpacePartitioning:
+                UpdateParticleCollisionsGridSpacePartitioning();
+                break;
+            case KDTrees:
+                UpdateParticleCollisionsKDTrees();
+                break;
+            case BoundingVolumeHierarchies:
+                UpdateParticleCollisionsBoundingVolumeHierarchies();
+                break;
+        }
+    }
+
+    // Update the particles' graphics once in this frame
+    if(shouldRender) {
+        for (int i = 0; i < particles.size(); i++) {
+
+            particles[i].UpdateParticleGraphics(fw);
+        }
     }
 }
 
 void ParticleGenerator::UpdateParticleCollisionsBrute(){
 
     // Each particle should only need to collide with another once per update
-    std::map<Vector2*, int> processedCollisions;
-
     for (int i = 0; i < particles.size(); i++){
         for (int j = 0; j < particles.size(); j++){
 
@@ -56,24 +88,105 @@ void ParticleGenerator::UpdateParticleCollisionsBrute(){
 
                 bool collided = particles[i].ParticleCollision(&particles[j]);
             }
-
-            /*Vector2 collisionPair = Vector2(i, j);
-            Vector2 collisionPairInv = Vector2(j, i);
-
-            if (i != j && processedCollisions.find(&collisionPair) == processedCollisions.end()){
-
-                bool collided = particles[i].ParticleCollision(&particles[j]);
-                if (collided) {
-                    processedCollisions[&collisionPair] = 1;
-                    processedCollisions[&collisionPairInv] = 1;
-                }
-            }*/
         }
     }
 }
 
 void ParticleGenerator::UpdateParticleCollisionsSweepNPrune(){
 
+    std::vector<Particle*> xPosSortedParticles;
+    std::vector<Particle*> activeInterval;
+    Vector2 intervalVector;
+    bool activeIntervalSet = false;
+
+    // Sort all particles based on their x position
+    std::map<int, float> xPosMap; // A map that stores the particle array position as key and the particles x position as the value
+    for (int i = 0; i < particles.size(); i++){
+
+        xPosMap[i] = particles[i].GetPosition()->GetX();
+    }
+    std::vector<std::pair<int, float>> sortedPairsVec = SortMapByValue(xPosMap);
+
+    // Set the xPosSortedParticles vector based on sortedPairsVec
+    for (std::pair<int, float> p : sortedPairsVec){
+
+        xPosSortedParticles.push_back(&particles[p.first]);
+        //std::cout << p.second << std::endl;
+    }
+
+    // Loop through all particles to find which ones exist in the same interval across the x-axis
+    for (int i = 0; i < xPosSortedParticles.size(); i++){
+
+        // Check if there is an active interval
+        if(!activeIntervalSet){
+
+            // Set the active interval bool, add this particle to the start of the interval
+            activeIntervalSet = true;
+            activeInterval.clear();
+            activeInterval.push_back(xPosSortedParticles[i]);
+
+            // Set the Interval Vector for which this particle resides
+            float intervalStart = xPosSortedParticles[i]->GetPosition()->GetX() - xPosSortedParticles[i]->GetRadius();
+            float intervalEnd = xPosSortedParticles[i]->GetPosition()->GetX() + xPosSortedParticles[i]->GetRadius();
+            intervalVector = Vector2(intervalStart, intervalEnd);
+
+            // Continue to the next particle
+            continue;
+        }
+
+        // Check if the next particle resides in this interval
+        float particleIntervalStart = xPosSortedParticles[i]->GetPosition()->GetX() - xPosSortedParticles[i]->GetRadius();
+        float particleIntervalEnd = xPosSortedParticles[i]->GetPosition()->GetX() + xPosSortedParticles[i]->GetRadius();
+        if((particleIntervalStart <= intervalVector.GetY() && particleIntervalEnd >= intervalVector.GetX()) ||
+            (particleIntervalEnd <= intervalVector.GetY() && particleIntervalStart >= intervalVector.GetX())){
+
+            // Particle does exist in the interval so extend the interval and add it to the activeInterval
+            if(particleIntervalStart <= intervalVector.GetX()){
+
+                // Interval needs starting point adjusted
+                intervalVector.SetX(particleIntervalStart);
+            }
+            if(particleIntervalEnd >= intervalVector.GetY()){
+
+                // Interval needs ending point adjusted
+                intervalVector.SetY(particleIntervalEnd);
+            }
+
+            // Add this particle to the activeInterval
+            activeInterval.push_back(xPosSortedParticles[i]);
+        }else{
+
+            // Particle does not exist in the interval so check collision in activeInterval particles
+            for (int w = 0; w < activeInterval.size(); w++){
+                for (int z = 0; z < activeInterval.size(); z++){
+
+                    if(w != z && activeInterval[w]->GetCollidedParticle() != activeInterval[z]){
+
+                        bool collided = activeInterval[w]->ParticleCollision(activeInterval[z]);
+                    }
+                }
+            }
+
+            // Since this particle is not part of activeInterval start a new activeInterval with this particle
+            i--;
+            activeIntervalSet = false;
+            continue;
+        }
+    }
+
+    // Update the collisions of the final interval
+    if (activeInterval.size() > 0){
+
+        for (int w = 0; w < activeInterval.size(); w++){
+            for (int z = 0; z < activeInterval.size(); z++){
+
+                if(w != z && activeInterval[w]->GetCollidedParticle() != activeInterval[z]){
+
+                    bool collided = activeInterval[w]->ParticleCollision(activeInterval[z]);
+                }
+            }
+        }
+    }
 }
 
 void ParticleGenerator::UpdateParticleCollisionsGridSpacePartitioning(){
