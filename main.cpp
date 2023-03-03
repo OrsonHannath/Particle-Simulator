@@ -9,6 +9,7 @@
 #include "Vector2.h"
 #include "Vector4.h"
 #include "Enumerators.h"
+#include "ParticleSimulatorSettings.h"
 
 /* BUGS
  * Render Engine is Slow as Hell
@@ -18,32 +19,8 @@
  *  Implement a way to store spawn settings to be loaded and used
  */
 
-// Global Parameter
-int viewWidth = 1200;
-int viewHeight = 600;
-Vector2 gravity = Vector2(0, -9.8); // Gravity Breaks Simulation
-
-// Particle Generation Parameters
-CollisionPhysicsTypes collisionPhysicsType = UniformGridSpacePartitioning;
-GenerationTypes generationType = Gradual;
-bool loadSpawnSettings = false; // Should the settings be loaded from file
-std::string settingsPath = ""; // Location of settings file
-int physicsSteps = 16; // Number of collision checks per frame
-bool shouldRender = true; // Should the particles be rendered
-bool detailedParticles = true; // Should particles be spawned with all parameters set
-bool showImpact = false; // Should particles flash on impact
-int numOfParticles = 20; // Number of particles to spawn in
-float spawnsPerSecond = 4; // Number of particles to spawn per second when in gradual mode
-int gridSpaceCols = 12; // Number of Grid space Columns
-int gridSpacesRows = 6; // Number of Grid Space Rows
-
-// Particle Spawn Settings
-Vector4 positionRange = Vector4(-(viewWidth/2), -(viewHeight/2), (viewWidth/2), (viewHeight/2));
-Vector4 velocityRange = Vector4(-50, -50, 50, 50);
-Vector2 sizeRange = Vector2(10, 12);
-Vector2 massRange = Vector2(5, 10);
-Vector2 elasticityRange = Vector2(1, 1);
-Vector2 frictionRange = Vector2(0.1, 0.2);
+// Particle Simulator Settings
+ParticleSimulatorSettings simulatorSettings;
 
 // Variables
 int time_ = 0;
@@ -51,19 +28,26 @@ int timeOfLastSpawn = 0;
 
 int main(int argc, char* args[]) {
 
+    // Create the particle simulator settings
+    simulatorSettings = ParticleSimulatorSettings(R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\cmake-build-debug\SimulatorSettings\Test2.txt)");
+    //simulatorSettings = ParticleSimulatorSettings();
+    //simulatorSettings.SaveSimulatorSettings();
+
     // Create the framework class/object
-    Framework fw(viewWidth, viewHeight);
+    Framework fw(simulatorSettings.viewWidth, simulatorSettings.viewHeight);
 
     // Create an event variable
     SDL_Event event;
 
     // Create a new Particle Generator
-    ParticleGenerator particleGenerator = ParticleGenerator(numOfParticles, &gravity, &fw);
+    ParticleGenerator particleGenerator = ParticleGenerator(simulatorSettings.numOfParticles, &simulatorSettings.gravity, &fw);
 
-    if(generationType == Instant) {
-        if (detailedParticles) {
-            particleGenerator.GenerateParticles(positionRange, velocityRange, sizeRange, massRange, elasticityRange,
-                                                frictionRange); // Generates Detailed Particles
+    if(simulatorSettings.generationType == Instant) {
+        if (simulatorSettings.detailedParticles) {
+            particleGenerator.GenerateParticles(simulatorSettings.positionRange, simulatorSettings.velocityRange,
+                                                simulatorSettings.sizeRange, simulatorSettings.massRange,
+                                                simulatorSettings.elasticityRange,
+                                                simulatorSettings.frictionRange); // Generates Detailed Particles
         } else {
             particleGenerator.GenerateParticles(); // Generates regular particles
         }
@@ -80,14 +64,16 @@ int main(int argc, char* args[]) {
         fw.UpdateTitle(deltaTime); // Update the title to include FPS
 
         // If Gradual Generation Setting Gradually Generate Particles
-        if(generationType == Gradual) {
+        if(simulatorSettings.generationType == Gradual) {
 
             // Check if a particle should spawn
-            if((DeltaTime(timeOfLastSpawn) >= (1.0/spawnsPerSecond)) && particleGenerator.GetParticleCount() < numOfParticles) {
+            if((DeltaTime(timeOfLastSpawn) >= (1.0/simulatorSettings.spawnsPerSecond)) && particleGenerator.GetParticleCount() < simulatorSettings.numOfParticles) {
 
-                if (detailedParticles) {
-                    particleGenerator.GenerateParticle(positionRange, velocityRange, sizeRange, massRange,
-                                                        elasticityRange, frictionRange); // Generates Detailed Particles
+                if (simulatorSettings.detailedParticles) {
+                    particleGenerator.GenerateParticle(simulatorSettings.positionRange, simulatorSettings.velocityRange,
+                                                       simulatorSettings.sizeRange, simulatorSettings.massRange,
+                                                       simulatorSettings.elasticityRange,
+                                                       simulatorSettings.frictionRange); // Generates Detailed Particles
                     timeOfLastSpawn = time_;
                 } else {
                     particleGenerator.GenerateParticle(); // Generates regular particles
@@ -97,7 +83,10 @@ int main(int argc, char* args[]) {
         }
 
         // Update the Particles
-        particleGenerator.UpdateParticles(deltaTime, collisionPhysicsType, physicsSteps, shouldRender, gridSpaceCols, gridSpacesRows, showImpact);
+        particleGenerator.UpdateParticles(deltaTime, simulatorSettings.collisionPhysicsType,
+                                          simulatorSettings.physicsSteps, simulatorSettings.shouldRender,
+                                          simulatorSettings.gridSpaceCols, simulatorSettings.gridSpacesRows,
+                                          simulatorSettings.showImpact);
 
         // Update Graphics
         fw.GraphicsUpdate();

@@ -19,6 +19,7 @@ public:
     void SetGreen(int green_);
     void SetBlue(int blue_);
     void SetAlpha(int alpha_);
+    void SetRGBA(int r, int g, int b, int a);
 
     int GetRed();
     int GetGreen();

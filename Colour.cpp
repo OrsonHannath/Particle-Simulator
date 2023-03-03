@@ -24,6 +24,14 @@ void Colour::SetAlpha(int alpha_) {
     alpha = alpha_;
 }
 
+void Colour::SetRGBA(int r, int g, int b, int a){
+
+    red = r;
+    green = g;
+    blue = b;
+    alpha = a;
+}
+
 int Colour::GetRed() {
 
     return red;
