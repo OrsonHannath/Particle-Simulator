@@ -6,7 +6,8 @@
 #define PARTICLESIMULATOR_ENUMERATORS_H
 
 
-enum CollisionPhysicsTypes {Brute, SweepNPrune, GridSpacePartitioning, KDTrees, BoundingVolumeHierarchies};
+enum CollisionPhysicsTypes {Brute, SweepNPrune, UniformGridSpacePartitioning, BoundingVolumeHierarchy};
+enum GenerationTypes {Instant, Gradual};
 
 
 #endif //PARTICLESIMULATOR_ENUMERATORS_H

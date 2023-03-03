@@ -30,6 +30,13 @@ float VectorDistance(Vector2 vec1, Vector2 vec2){
     return sqrt((pow((vec1.GetX() - vec2.GetX()), 2)) + (pow((vec1.GetY() - vec2.GetY()), 2))); // a*a + b*b = c*c trigonometry
 }
 
+
+float VectorDistance(Vector2* vec1, Vector2* vec2){
+
+    //std::cout << pow((vec1.GetX() - vec2.GetX()), 2) << std::endl;
+    return sqrt((pow((vec1->GetX() - vec2->GetX()), 2)) + (pow((vec1->GetY() - vec2->GetY()), 2))); // a*a + b*b = c*c trigonometry
+}
+
 double VectorMagnitude(Vector2 vec) {
 
     return std::sqrt(vec.GetX() * vec.GetX() + vec.GetY() * vec.GetY());

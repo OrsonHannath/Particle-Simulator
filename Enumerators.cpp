@@ -5,3 +5,4 @@
 #include "Enumerators.h"
 
 enum CollisionPhysicsTypes;
+enum GenerationTypes;

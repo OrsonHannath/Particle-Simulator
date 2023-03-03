@@ -78,10 +78,10 @@ void Particle::UpdateParticle(Framework* fw, float deltaTime){
     BoundaryCollisions(fw);
 }
 
-void Particle::UpdateParticleGraphics(Framework *fw) {
+void Particle::UpdateParticleGraphics(Framework *fw, bool showImpact) {
 
     // Update the particle graphics
-    if(!collided){
+    if(!collided || !showImpact){
 
         fw->DrawCircle(position.GetX(), position.GetY(), size, colour);
     }else{
@@ -176,6 +176,11 @@ void Particle::SetVelocity(Vector2 velocity_){
 void Particle::SetAcceleration(Vector2 acceleration_){
 
     acceleration = acceleration_;
+}
+
+void Particle::SetColour(Colour col) {
+
+    colour = col;
 }
 
 Particle* Particle::GetCollidedParticle() {

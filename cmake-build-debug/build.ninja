@@ -133,6 +133,13 @@ build CMakeFiles/ParticleSimulator.dir/MapSort.cpp.obj: CXX_COMPILER__ParticleSi
   OBJECT_DIR = CMakeFiles\ParticleSimulator.dir
   OBJECT_FILE_DIR = CMakeFiles\ParticleSimulator.dir
 
+build CMakeFiles/ParticleSimulator.dir/BinaryTree.cpp.obj: CXX_COMPILER__ParticleSimulator_Debug C$:/Users/User/Desktop/Portfolio/ParticleSimulator/BinaryTree.cpp || cmake_object_order_depends_target_ParticleSimulator
+  DEP_FILE = CMakeFiles\ParticleSimulator.dir\BinaryTree.cpp.obj.d
+  FLAGS = -g -std=gnu++14
+  INCLUDES = -IC:/libs/SDL/include
+  OBJECT_DIR = CMakeFiles\ParticleSimulator.dir
+  OBJECT_FILE_DIR = CMakeFiles\ParticleSimulator.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target ParticleSimulator
@@ -141,7 +148,7 @@ build CMakeFiles/ParticleSimulator.dir/MapSort.cpp.obj: CXX_COMPILER__ParticleSi
 #############################################
 # Link the executable ParticleSimulator.exe
 
-build ParticleSimulator.exe: CXX_EXECUTABLE_LINKER__ParticleSimulator_Debug CMakeFiles/ParticleSimulator.dir/main.cpp.obj CMakeFiles/ParticleSimulator.dir/Framework.cpp.obj CMakeFiles/ParticleSimulator.dir/Colour.cpp.obj CMakeFiles/ParticleSimulator.dir/Particle.cpp.obj CMakeFiles/ParticleSimulator.dir/Vector2.cpp.obj CMakeFiles/ParticleSimulator.dir/VectorMath.cpp.obj CMakeFiles/ParticleSimulator.dir/ColourRandomizer.cpp.obj CMakeFiles/ParticleSimulator.dir/Random.cpp.obj CMakeFiles/ParticleSimulator.dir/ParticleGenerator.cpp.obj CMakeFiles/ParticleSimulator.dir/Vector4.cpp.obj CMakeFiles/ParticleSimulator.dir/Enumerators.cpp.obj CMakeFiles/ParticleSimulator.dir/MapSort.cpp.obj
+build ParticleSimulator.exe: CXX_EXECUTABLE_LINKER__ParticleSimulator_Debug CMakeFiles/ParticleSimulator.dir/main.cpp.obj CMakeFiles/ParticleSimulator.dir/Framework.cpp.obj CMakeFiles/ParticleSimulator.dir/Colour.cpp.obj CMakeFiles/ParticleSimulator.dir/Particle.cpp.obj CMakeFiles/ParticleSimulator.dir/Vector2.cpp.obj CMakeFiles/ParticleSimulator.dir/VectorMath.cpp.obj CMakeFiles/ParticleSimulator.dir/ColourRandomizer.cpp.obj CMakeFiles/ParticleSimulator.dir/Random.cpp.obj CMakeFiles/ParticleSimulator.dir/ParticleGenerator.cpp.obj CMakeFiles/ParticleSimulator.dir/Vector4.cpp.obj CMakeFiles/ParticleSimulator.dir/Enumerators.cpp.obj CMakeFiles/ParticleSimulator.dir/MapSort.cpp.obj CMakeFiles/ParticleSimulator.dir/BinaryTree.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lSDL2main  -lSDL2  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   LINK_PATH = -LC:/libs/SDL/lib/x64
