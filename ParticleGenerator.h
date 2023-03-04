@@ -14,6 +14,8 @@
 #include "MapSort.h"
 #include "BinaryTree.h"
 #include "VectorMath.h"
+#include "ParticleSimulatorSettings.h"
+#include "DeltaTime.h"
 
 class ParticleGenerator {
 private:
@@ -28,6 +30,9 @@ public:
     void GenerateParticles(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange);
     void GenerateParticle();
     void GenerateParticle(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange);
+    void GenerateParticle(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange, Colour colour_);
+
+    void GradualParticleGeneration(int& timeOfLastSpawn, int time_, ParticleSimulatorSettings* simulatorSettings);
 
     void UpdateParticles(float deltaTime, CollisionPhysicsTypes collisionPhysicsType, int physicsSteps, bool shouldRender,
                          int gridSpaceCols, int gridSpaceRows, bool showImpact);

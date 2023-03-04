@@ -12,7 +12,7 @@ ParticleSimulatorSettings::ParticleSimulatorSettings(std::string settingsLocatio
 
     if (access(settingsLocation.c_str(), F_OK) == 0) {
 
-        std::cout << "File Exists" << std::endl;
+        //std::cout << "File Exists" << std::endl;
     } else {
 
         std::cout << "File Doesn't Exists" << std::endl;

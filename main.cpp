@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL.h>
+#include <cmath>
 #include "Random.h"
 #include "VectorMath.h"
 #include "Framework.h"
@@ -16,20 +17,25 @@
  */
 
 /* TODO
- *  Implement a way to store spawn settings to be loaded and used
+ *  Add a background to the simulator that says the simulation name, the ms between graphics frames and the ms between physics frames
+ *  Make the ability to save a render of particle simulation at x fps
  */
 
 // Particle Simulator Settings
 ParticleSimulatorSettings simulatorSettings;
+RenderType renderType = Realtime;
+int renderFPS = 60;
 
 // Variables
 int time_ = 0;
 int timeOfLastSpawn = 0;
+SDL_Event mainEvent;
+HWND windowHandler;
 
 int main(int argc, char* args[]) {
 
     // Create the particle simulator settings
-    simulatorSettings = ParticleSimulatorSettings(R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\cmake-build-debug\SimulatorSettings\Test2.txt)");
+    simulatorSettings = ParticleSimulatorSettings(R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\cmake-build-debug\SimulatorSettings\Fountain500.txt)");
     //simulatorSettings = ParticleSimulatorSettings();
     //simulatorSettings.SaveSimulatorSettings();
 
@@ -65,21 +71,7 @@ int main(int argc, char* args[]) {
 
         // If Gradual Generation Setting Gradually Generate Particles
         if(simulatorSettings.generationType == Gradual) {
-
-            // Check if a particle should spawn
-            if((DeltaTime(timeOfLastSpawn) >= (1.0/simulatorSettings.spawnsPerSecond)) && particleGenerator.GetParticleCount() < simulatorSettings.numOfParticles) {
-
-                if (simulatorSettings.detailedParticles) {
-                    particleGenerator.GenerateParticle(simulatorSettings.positionRange, simulatorSettings.velocityRange,
-                                                       simulatorSettings.sizeRange, simulatorSettings.massRange,
-                                                       simulatorSettings.elasticityRange,
-                                                       simulatorSettings.frictionRange); // Generates Detailed Particles
-                    timeOfLastSpawn = time_;
-                } else {
-                    particleGenerator.GenerateParticle(); // Generates regular particles
-                    timeOfLastSpawn = time_;
-                }
-            }
+            particleGenerator.GradualParticleGeneration((int &)timeOfLastSpawn, time_, &simulatorSettings);
         }
 
         // Update the Particles

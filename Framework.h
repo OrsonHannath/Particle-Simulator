@@ -18,6 +18,8 @@ private:
     int width; // Window Width
     SDL_Renderer *renderer = NULL; // Pointer to Renderer
     SDL_Window *window = NULL; // Pointer to Window
+    SDL_Texture *renderTexture;
+    Uint32* textureArray;
 public:
     Framework(int width_, int height_); // Constructor
     ~Framework(); // Destructor
@@ -38,6 +40,8 @@ public:
     void DrawSquare(int xPos, int yPos, float size, Colour colour);
 
     void DrawLine(int sXPos, int sYPos, int eXPos, int eYPos, int thickness, Colour colour);
+
+    SDL_Window* GetWindow();
 };
 
 

@@ -8,15 +8,9 @@
 #include <chrono>
 
 // Returns current time
-int CurrentTime(){
-
-    return (int)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-}
+int CurrentTime();
 
 // Calculates and Returns the difference in time between current time and stored time in seconds
-float DeltaTime(int oldtTime){
-
-    return ((CurrentTime() - oldtTime) / 1000.0);
-}
+float DeltaTime(int oldtTime);
 
 #endif //PARTICLESIMULATOR_DELTATIME_H

@@ -50,3 +50,14 @@ int Colour::GetAlpha() {
 
     return alpha;
 }
+
+Colour LerpBetweenColours(Colour* startCol, Colour* endCol, float lerpPos){
+
+    float lerpedRed = (endCol->GetRed() - startCol->GetRed()) * lerpPos + startCol->GetRed();
+    float lerpedGreen = (endCol->GetGreen() - startCol->GetGreen()) * lerpPos + startCol->GetGreen();
+    float lerpedBlue = (endCol->GetBlue() - startCol->GetBlue()) * lerpPos + startCol->GetBlue();
+    float lerpedAlpha = (endCol->GetAlpha() - startCol->GetAlpha()) * lerpPos + startCol->GetAlpha();
+    Colour lerpedCol = Colour((int)lerpedRed, (int)lerpedGreen, (int)lerpedBlue, (int)lerpedAlpha);
+
+    return lerpedCol;
+}

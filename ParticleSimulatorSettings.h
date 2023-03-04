@@ -19,7 +19,7 @@ public:
     ParticleSimulatorSettings()= default;
     ParticleSimulatorSettings(std::string settingsLocation);
 
-    std::string simName = "Test2";
+    std::string simName = "Fountain500";
 
     int viewWidth = 1200;
     int viewHeight = 600;
@@ -33,20 +33,20 @@ public:
     bool shouldRender = true; // Should the particles be rendered
     bool detailedParticles = true; // Should particles be spawned with all parameters set
     bool showImpact = false; // Should particles flash on impact
-    int numOfParticles = 20; // Number of particles to spawn in
-    float spawnsPerSecond = 4; // Number of particles to spawn per second when in gradual mode
+    int numOfParticles = 500; // Number of particles to spawn in
+    float spawnsPerSecond = 20; // Number of particles to spawn per second when in gradual mode
     int gridSpaceCols = 12; // Number of Grid space Columns
     int gridSpacesRows = 6; // Number of Grid Space Rows
     Colour specificColour = Colour(128, 24, 172, 255); // Colour for specific setting
     Colour lerpStartColour = Colour(30, 10, 180, 255); // Colour to start lerp at
     Colour lerpEndColour = Colour(30, 10, 255, 255); // Colour to end lerp at
 
-    Vector4 positionRange = Vector4(-(viewWidth/2.0), -(viewHeight/2.0), (viewWidth/2.0), (viewHeight/2.0));
-    Vector4 velocityRange = Vector4(-50, -50, 50, 50);
+    Vector4 positionRange = Vector4(-(viewWidth/2.0) + 10, (viewHeight/4.0), -(viewWidth/2.0) + 10, (viewHeight/4.0));
+    Vector4 velocityRange = Vector4(500, -5, 500, 5);
     Vector2 sizeRange = Vector2(10, 12);
-    Vector2 massRange = Vector2(5, 10);
-    Vector2 elasticityRange = Vector2(1, 1);
-    Vector2 frictionRange = Vector2(0.1, 0.2);
+    Vector2 massRange = Vector2(10, 10);
+    Vector2 elasticityRange = Vector2(0.05, 0.1);
+    Vector2 frictionRange = Vector2(0.001, 0.002);
 
     void SaveSimulatorSettings();
 

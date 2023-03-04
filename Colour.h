@@ -28,5 +28,7 @@ public:
 
 };
 
+Colour LerpBetweenColours(Colour* startCol, Colour* endCol, float lerpPos);
+
 
 #endif //PARTICLESIMULATOR_COLOUR_H

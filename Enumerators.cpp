@@ -4,6 +4,7 @@
 
 #include "Enumerators.h"
 
+enum RenderType;
 enum CollisionPhysicsTypes;
 enum GenerationTypes;
 enum ColourTypes;

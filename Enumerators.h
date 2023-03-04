@@ -7,6 +7,7 @@
 
 #include <string>
 
+enum RenderType {Realtime, Saved};
 enum CollisionPhysicsTypes {Brute, SweepNPrune, UniformGridSpacePartitioning, BoundingVolumeHierarchy};
 enum GenerationTypes {Instant, Gradual};
 enum ColourTypes {Random, Lerp, Specific};

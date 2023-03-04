@@ -62,6 +62,25 @@ void ParticleGenerator::GenerateParticle(Vector4 positionRange, Vector4 velocity
     particles.push_back(p);
 }
 
+void ParticleGenerator::GenerateParticle(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange, Colour colour_) {
+
+    // Generate the particle
+    Vector2 position = Vector2(RandomInt(positionRange.GetX(), positionRange.GetZ()),
+                               RandomInt(positionRange.GetY(), positionRange.GetW()));
+
+    Vector2 velocity = Vector2(RandomInt(velocityRange.GetX(), velocityRange.GetZ()),
+                               RandomInt(velocityRange.GetY(), velocityRange.GetW()));;
+
+    int size = RandomInt(sizeRange.GetX(), sizeRange.GetY());
+    int mass = RandomInt(massRange.GetX(), massRange.GetY());
+    float elasticity = RandomFloat(elasticityRange.GetX(), elasticityRange.GetY(), 5);
+    float friction = RandomFloat(frictionRange.GetX(), frictionRange.GetY(), 5);
+
+    Particle p = Particle(position, velocity, size, mass, elasticity, friction, gravity);
+    p.SetColour(colour_);
+    particles.push_back(p);
+}
+
 void ParticleGenerator::UpdateParticles(float deltaTime, CollisionPhysicsTypes collisionPhysicsType, int physicsSteps,
                                         bool shouldRender, int gridSpaceCols, int gridSpaceRows, bool showImpact) {
 
@@ -264,6 +283,36 @@ void ParticleGenerator::UpdateParticleCollisionsUniformGridSpacePartitioning(int
                     }
                 }
             }
+        }
+    }
+}
+
+void ParticleGenerator::GradualParticleGeneration(int& timeOfLastSpawn, int time_, ParticleSimulatorSettings* simulatorSettings) {
+
+    // Check if a particle should spawn
+    if((DeltaTime(timeOfLastSpawn) >= (1.0/simulatorSettings->spawnsPerSecond)) && GetParticleCount() < simulatorSettings->numOfParticles) {
+
+        if(simulatorSettings->colourType == Lerp) {
+
+            float lerpPos = (float)GetParticleCount() / (float)simulatorSettings->numOfParticles;
+            Colour lerpedCol = LerpBetweenColours(&simulatorSettings->lerpStartColour, &simulatorSettings->lerpEndColour, lerpPos);
+
+            // Spawn a particle with lerped colour
+            GenerateParticle(simulatorSettings->positionRange, simulatorSettings->velocityRange,
+                                               simulatorSettings->sizeRange, simulatorSettings->massRange,
+                                               simulatorSettings->elasticityRange,
+                                               simulatorSettings->frictionRange,
+                                               lerpedCol); // Generates Detailed Particles
+            timeOfLastSpawn = time_;
+        }else if (simulatorSettings->detailedParticles) {
+            GenerateParticle(simulatorSettings->positionRange, simulatorSettings->velocityRange,
+                                               simulatorSettings->sizeRange, simulatorSettings->massRange,
+                                               simulatorSettings->elasticityRange,
+                                               simulatorSettings->frictionRange); // Generates Detailed Particles
+            timeOfLastSpawn = time_;
+        } else {
+            GenerateParticle(); // Generates regular particles
+            timeOfLastSpawn = time_;
         }
     }
 }

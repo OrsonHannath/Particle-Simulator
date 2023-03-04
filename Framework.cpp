@@ -12,6 +12,7 @@ Framework::Framework(int width_, int height_) : height(height_), width(width_){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0); // Set the draw colour to black
     SDL_RenderClear(renderer); // Clear the renderer
     SDL_RenderPresent(renderer); // Update the renderer
+    SDL_RenderClear(renderer);
 }
 
 // Destructor for Framework Class
@@ -24,6 +25,8 @@ Framework::~Framework() {
 
 void Framework::GraphicsUpdate() {
 
+    SDL_SetRenderTarget(renderer, nullptr);
+    SDL_RenderCopy(renderer, renderTexture, nullptr, nullptr);
     SDL_RenderPresent(renderer); // Update the graphics
 }
 
@@ -123,4 +126,9 @@ int Framework::GetWidth() {
 int Framework::GetHeight() {
 
     return height;
+}
+
+SDL_Window* Framework::GetWindow(){
+
+    return window;
 }
