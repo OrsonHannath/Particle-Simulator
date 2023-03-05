@@ -287,6 +287,18 @@ void ParticleGenerator::UpdateParticleCollisionsUniformGridSpacePartitioning(int
     }
 }
 
+void ParticleGenerator::InstantParticleGeneration(ParticleSimulatorSettings* simulatorSettings){
+
+    if (simulatorSettings->detailedParticles) {
+        GenerateParticles(simulatorSettings->positionRange, simulatorSettings->velocityRange,
+                                            simulatorSettings->sizeRange, simulatorSettings->massRange,
+                                            simulatorSettings->elasticityRange,
+                                            simulatorSettings->frictionRange); // Generates Detailed Particles
+    } else {
+        GenerateParticles(); // Generates regular particles
+    }
+}
+
 void ParticleGenerator::GradualParticleGeneration(int& timeOfLastSpawn, int time_, ParticleSimulatorSettings* simulatorSettings) {
 
     // Check if a particle should spawn

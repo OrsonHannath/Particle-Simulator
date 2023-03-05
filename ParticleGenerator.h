@@ -32,6 +32,7 @@ public:
     void GenerateParticle(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange);
     void GenerateParticle(Vector4 positionRange, Vector4 velocityRange, Vector2 sizeRange, Vector2 massRange, Vector2 elasticityRange, Vector2 frictionRange, Colour colour_);
 
+    void InstantParticleGeneration(ParticleSimulatorSettings* simulatorSettings);
     void GradualParticleGeneration(int& timeOfLastSpawn, int time_, ParticleSimulatorSettings* simulatorSettings);
 
     void UpdateParticles(float deltaTime, CollisionPhysicsTypes collisionPhysicsType, int physicsSteps, bool shouldRender,

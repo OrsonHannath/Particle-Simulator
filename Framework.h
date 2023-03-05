@@ -10,10 +10,13 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
+#include <fstream>
+#include <windows.h>
 #include "Colour.h"
 #include "Vector2.h"
 #include "SDLText.h"
 #include "StringFunctions.h"
+#include "SDL_image.h"
 
 class Framework {
 private:
@@ -28,7 +31,9 @@ public:
     ~Framework(); // Destructor
     void GraphicsUpdate(); // Graphics Update
     void ClearGraphics(); // Clears Graphics
-    void UpdateTitle(float deltaTime);
+    void UpdateTitle(float deltaTime); // Updates window title
+
+    void SaveFrame(std::string& simName, int frameNumber); // Saves the current frame to file
 
     void UpdateTextInformation(float deltaTime, int physicsSteps, std::string simTitle, std::string &fontPath);
 

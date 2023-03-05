@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <cmath>
+#include "windows.h"
 #include "Random.h"
 #include "VectorMath.h"
 #include "Framework.h"
@@ -12,25 +13,31 @@
 #include "Enumerators.h"
 #include "ParticleSimulatorSettings.h"
 #include "SDLText.h"
+#include <stdio.h>
 
 /* BUGS
  * Render Engine is Slow as Hell
  */
 
 /* TODO
- *  Make the ability to save a render of particle simulation at x fps
  *  Implement a saving and loading UX
  *  Optimize rendering such that pixels are not drawn directly to renderer one by one
  */
 
 // Particle Simulator Settings
 ParticleSimulatorSettings simulatorSettings;
-RenderType renderType = Realtime;
+
+// Rendering Settings
+RenderType renderType = Saved;
 int renderFPS = 60;
+int frameNum = 0;
+int renderRuntime = 20; // Time to run simulation in seconds (Time passed after all particles spawned)
 
 // Variables
 int time_ = 0;
 int timeOfLastSpawn = 0;
+float timeSinceAllSpawned = 0;
+bool allSpawned = false;
 SDL_Event mainEvent;
 HWND windowHandler;
 std::string fontPath = R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\fonts\VCR_OSD_MONO_1.001.ttf)";
@@ -56,15 +63,10 @@ int main(int argc, char* args[]) {
     // Create a new Particle Generator
     ParticleGenerator particleGenerator = ParticleGenerator(simulatorSettings.numOfParticles, &simulatorSettings.gravity, &fw);
 
+    // If Generation is Instant Call to Instantly Generate Particles
     if(simulatorSettings.generationType == Instant) {
-        if (simulatorSettings.detailedParticles) {
-            particleGenerator.GenerateParticles(simulatorSettings.positionRange, simulatorSettings.velocityRange,
-                                                simulatorSettings.sizeRange, simulatorSettings.massRange,
-                                                simulatorSettings.elasticityRange,
-                                                simulatorSettings.frictionRange); // Generates Detailed Particles
-        } else {
-            particleGenerator.GenerateParticles(); // Generates regular particles
-        }
+        particleGenerator.InstantParticleGeneration(&simulatorSettings);
+        allSpawned = true;
     }
 
     // Check to see if the window is ever closed and if so terminate the program
@@ -74,15 +76,32 @@ int main(int argc, char* args[]) {
 
         // Time Management
         float deltaTime = DeltaTime(time_); // Calculate the Delta Time
+        float deltaTimeTrue = deltaTime; // True Calculated Delta time in all instances of simulation (Doesn't account for set framerate rendering)
         time_ = CurrentTime(); // Set the Current Time
         fw.UpdateTitle(deltaTime); // Update the title to include FPS
 
+        // If renderType is Saved then set delta time to be 1/targetFPS
+        if (renderType == Saved){
+
+            deltaTime = 1.0/renderFPS;
+        }
+
+        // If all particles have been spawned increment the timeSinceAllSpawned
+        if (allSpawned){
+            timeSinceAllSpawned += deltaTime;
+        }
+
         // Update background text information
-        fw.UpdateTextInformation(deltaTime, simulatorSettings.physicsSteps, simulatorSettings.simName, fontPath);
+        fw.UpdateTextInformation(deltaTimeTrue, simulatorSettings.physicsSteps, simulatorSettings.simName, fontPath);
 
         // If Gradual Generation Setting Gradually Generate Particles
         if(simulatorSettings.generationType == Gradual) {
             particleGenerator.GradualParticleGeneration((int &)timeOfLastSpawn, time_, &simulatorSettings);
+
+            if(particleGenerator.GetParticleCount() >= simulatorSettings.numOfParticles){
+
+                allSpawned = true;
+            }
         }
 
         // Update the Particles
@@ -92,7 +111,20 @@ int main(int argc, char* args[]) {
                                           simulatorSettings.showImpact);
 
         // Update Graphics
-        fw.GraphicsUpdate();
+        if(renderType == Realtime){
+
+            fw.GraphicsUpdate();
+        }else if (renderType == Saved){
+
+            fw.GraphicsUpdate();
+            fw.SaveFrame(simulatorSettings.simName, frameNum);
+            frameNum++;
+        }
+
+        if(timeSinceAllSpawned >= renderRuntime){
+            std::cout << "Render Complete" << std::endl;
+            break;
+        }
 
         // Detect closure of application
         SDL_Delay(10); // Set some delay

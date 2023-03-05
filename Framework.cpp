@@ -61,6 +61,32 @@ void Framework::UpdateTextInformation(float deltaTime, int physicsSteps, std::st
     title.Display(Center, (width/2), (height/10), renderer);
 }
 
+void Framework::SaveFrame(std::string& simName, int frameNumber){
+
+    // Determine the path that the exe is being run from
+    char buffer[MAX_PATH];
+    GetModuleFileName( NULL, buffer, MAX_PATH);
+    std::string currentDirectory = std::string(buffer).substr(0, std::string(buffer).find_last_of("\\/"));
+    std::string directory = currentDirectory + "/SimulatorRenders/";
+    std::string directoryFull = currentDirectory + "/SimulatorRenders/" + simName + "/";
+
+    // Create the directory at given location
+    CreateDirectory(directory.c_str(), NULL);
+    CreateDirectory(directoryFull.c_str(), NULL);
+
+    // Copy the renderer as a surface
+    SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
+    SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, surface->pixels, surface->pitch);
+
+    // Try to save to PNG
+    if(IMG_SavePNG(surface, (directoryFull + std::to_string(frameNumber) + ".png").c_str()) != 0) {
+        // Error saving bitmap
+        printf("SDL_SaveBMP failed: %s\n", SDL_GetError());
+    }
+
+    SDL_FreeSurface(surface);
+}
+
 // Returns the x and y position converted from SDL2 framework space to world space
 Vector2 Framework::WorldSpaceToFrameworkSpace(int xPos, int yPos){
 
