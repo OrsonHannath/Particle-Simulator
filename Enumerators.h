@@ -11,6 +11,7 @@ enum RenderType {Realtime, Saved};
 enum CollisionPhysicsTypes {Brute, SweepNPrune, UniformGridSpacePartitioning, BoundingVolumeHierarchy};
 enum GenerationTypes {Instant, Gradual};
 enum ColourTypes {Random, Lerp, Specific};
+enum PositionOrigin {TopLeft, TopRight, BotLeft, BotRight, Center};
 
 std::string EnumToString(CollisionPhysicsTypes enum_);
 std::string EnumToString(GenerationTypes enum_);

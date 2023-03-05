@@ -51,6 +51,12 @@ int Colour::GetAlpha() {
     return alpha;
 }
 
+SDL_Color Colour::GetSDLColor(){
+
+    SDL_Color sdlColor = {static_cast<Uint8>(red), static_cast<Uint8>(green), static_cast<Uint8>(blue), static_cast<Uint8>(alpha)};
+    return sdlColor;
+}
+
 Colour LerpBetweenColours(Colour* startCol, Colour* endCol, float lerpPos){
 
     float lerpedRed = (endCol->GetRed() - startCol->GetRed()) * lerpPos + startCol->GetRed();

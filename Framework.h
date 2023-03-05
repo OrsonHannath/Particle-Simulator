@@ -9,8 +9,11 @@
 #include <SDL.h>
 #include <cmath>
 #include <iostream>
+#include <sstream>
 #include "Colour.h"
 #include "Vector2.h"
+#include "SDLText.h"
+#include "StringFunctions.h"
 
 class Framework {
 private:
@@ -27,6 +30,8 @@ public:
     void ClearGraphics(); // Clears Graphics
     void UpdateTitle(float deltaTime);
 
+    void UpdateTextInformation(float deltaTime, int physicsSteps, std::string simTitle, std::string &fontPath);
+
     int GetWidth();
     int GetHeight();
 
@@ -34,6 +39,7 @@ public:
     Vector2 WorldSpaceToFrameworkSpace(Vector2 pos_);
 
     // Drawing Functions
+    void DrawText(int xPos, int yPos, int size, Colour colour);
     void DrawCircle(int xPos, int yPos, int size, Colour colour);
 
     void DrawSquare(int xPos, int yPos, int width_, int height_, Colour colour);
@@ -42,6 +48,7 @@ public:
     void DrawLine(int sXPos, int sYPos, int eXPos, int eYPos, int thickness, Colour colour);
 
     SDL_Window* GetWindow();
+    SDL_Renderer* GetRenderer();
 };
 
 

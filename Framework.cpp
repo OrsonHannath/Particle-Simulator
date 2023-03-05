@@ -43,6 +43,24 @@ void Framework::UpdateTitle(float deltaTime) {
     SDL_SetWindowTitle(window, title.c_str());
 }
 
+void Framework::UpdateTextInformation(float deltaTime, int physicsSteps, std::string simTitle, std::string &fontPath) {
+
+    Colour textCol = Colour(255, 255, 255, 255);
+    Colour titleCol = Colour(128, 0, 255, 255);
+
+    // Graphics Frame MS and FPS
+    SDLText msGraphics = SDLText(std::to_string((int)(deltaTime * 1000)) + "ms - Graphics Updates - " + std::to_string((int)(1/deltaTime)) + "fps", 12, textCol, fontPath, renderer);
+    msGraphics.Display(Center, (width/2), (height/10) + 35, renderer);
+
+    // Physics Frame MS and FPS
+    SDLText msPhysics = SDLText(FloatToString(((float)deltaTime * 1000 / physicsSteps), 2) + "ms - Physics Updates - " + std::to_string((int)(1.0/(deltaTime / physicsSteps))) + "fps", 12, textCol, fontPath, renderer);
+    msPhysics.Display(Center, (width/2), (height/10) + 50, renderer);
+
+    // Simulation Title
+    SDLText title = SDLText(simTitle, 50, titleCol, fontPath, renderer);
+    title.Display(Center, (width/2), (height/10), renderer);
+}
+
 // Returns the x and y position converted from SDL2 framework space to world space
 Vector2 Framework::WorldSpaceToFrameworkSpace(int xPos, int yPos){
 
@@ -75,6 +93,11 @@ void Framework::DrawCircle(int xPos, int yPos, int size, Colour colour) {
             }
         }
     }
+}
+
+void DrawText(int xPos, int yPos, int size, Colour colour){
+
+
 }
 
 void Framework::DrawSquare(int xPos, int yPos, int width_, int height_, Colour colour) {
@@ -131,4 +154,9 @@ int Framework::GetHeight() {
 SDL_Window* Framework::GetWindow(){
 
     return window;
+}
+
+SDL_Renderer* Framework::GetRenderer(){
+
+    return renderer;
 }

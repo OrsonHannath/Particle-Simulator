@@ -5,6 +5,7 @@
 #ifndef PARTICLESIMULATOR_COLOUR_H
 #define PARTICLESIMULATOR_COLOUR_H
 
+#include <SDL.h>
 
 class Colour {
 private:
@@ -25,6 +26,8 @@ public:
     int GetGreen();
     int GetBlue();
     int GetAlpha();
+
+    SDL_Color GetSDLColor();
 
 };
 

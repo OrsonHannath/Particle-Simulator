@@ -8,6 +8,7 @@ enum RenderType;
 enum CollisionPhysicsTypes;
 enum GenerationTypes;
 enum ColourTypes;
+enum PositionOrigin;
 
 std::string EnumToString(CollisionPhysicsTypes enum_){
 

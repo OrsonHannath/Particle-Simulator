@@ -11,14 +11,16 @@
 #include "Vector4.h"
 #include "Enumerators.h"
 #include "ParticleSimulatorSettings.h"
+#include "SDLText.h"
 
 /* BUGS
  * Render Engine is Slow as Hell
  */
 
 /* TODO
- *  Add a background to the simulator that says the simulation name, the ms between graphics frames and the ms between physics frames
  *  Make the ability to save a render of particle simulation at x fps
+ *  Implement a saving and loading UX
+ *  Optimize rendering such that pixels are not drawn directly to renderer one by one
  */
 
 // Particle Simulator Settings
@@ -31,6 +33,7 @@ int time_ = 0;
 int timeOfLastSpawn = 0;
 SDL_Event mainEvent;
 HWND windowHandler;
+std::string fontPath = R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\fonts\VCR_OSD_MONO_1.001.ttf)";
 
 int main(int argc, char* args[]) {
 
@@ -38,6 +41,11 @@ int main(int argc, char* args[]) {
     simulatorSettings = ParticleSimulatorSettings(R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\cmake-build-debug\SimulatorSettings\Fountain500.txt)");
     //simulatorSettings = ParticleSimulatorSettings();
     //simulatorSettings.SaveSimulatorSettings();
+
+    // Initialize the SDL_TTF
+    if (TTF_Init() == -1){
+        std::cerr << "Failed to initialize SDL_ttf!" << std::endl;
+    }
 
     // Create the framework class/object
     Framework fw(simulatorSettings.viewWidth, simulatorSettings.viewHeight);
@@ -68,6 +76,9 @@ int main(int argc, char* args[]) {
         float deltaTime = DeltaTime(time_); // Calculate the Delta Time
         time_ = CurrentTime(); // Set the Current Time
         fw.UpdateTitle(deltaTime); // Update the title to include FPS
+
+        // Update background text information
+        fw.UpdateTextInformation(deltaTime, simulatorSettings.physicsSteps, simulatorSettings.simName, fontPath);
 
         // If Gradual Generation Setting Gradually Generate Particles
         if(simulatorSettings.generationType == Gradual) {
