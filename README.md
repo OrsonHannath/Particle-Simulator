@@ -1,5 +1,5 @@
 # Particle-Simulator
-Particle Simulator programmed in C++. Ability to change between different particle sorting algorithms to optimize collision physics.
+Particle Simulator programmed in C++. Ability to change between different particle sorting algorithms to optimize collision physics. Ability to render simulation to a series of frames compilable using https://github.com/OrsonHannath/Video-Compiler.
 
 ## Particle Sorting Algorithms
 ### Brute
