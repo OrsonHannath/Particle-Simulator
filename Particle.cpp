@@ -58,7 +58,7 @@ void Particle::BoundaryCollisions(Framework* fw){
 
         // Calculate a new Y velocity
         velocity.SetY(-velocity.GetY() * CalculateBounceCoefficient()); // Invert Y if Collision
-        position.SetY(-(fw->GetHeight()/2) + (size/2));
+        position.SetY(-(fw->GetHeight()/2) + (size/2) + 2); // Adding two makes particles always render above this border
 
         // Calculate Friction
         velocity.SetX(velocity.GetX() * (1 - friction));

@@ -43,22 +43,34 @@ void Framework::UpdateTitle(float deltaTime) {
     SDL_SetWindowTitle(window, title.c_str());
 }
 
-void Framework::UpdateTextInformation(float deltaTime, int physicsSteps, std::string simTitle, std::string &fontPath) {
+void Framework::UpdateTextInformation(float deltaTime, int physicsSteps, float elapsedTime, std::string* collPhysicsType, std::string* simTitle, int particleCount, std::string &fontPath) {
 
     Colour textCol = Colour(255, 255, 255, 255);
     Colour titleCol = Colour(128, 0, 255, 255);
 
     // Graphics Frame MS and FPS
     SDLText msGraphics = SDLText(std::to_string((int)(deltaTime * 1000)) + "ms - Graphics Updates - " + std::to_string((int)(1/deltaTime)) + "fps", 12, textCol, fontPath, renderer);
-    msGraphics.Display(Center, (width/2), (height/10) + 35, renderer);
+    msGraphics.Display(Center, (width/2), (height/10) + 55, renderer);
 
     // Physics Frame MS and FPS
     SDLText msPhysics = SDLText(FloatToString(((float)deltaTime * 1000 / physicsSteps), 2) + "ms - Physics Updates - " + std::to_string((int)(1.0/(deltaTime / physicsSteps))) + "fps", 12, textCol, fontPath, renderer);
-    msPhysics.Display(Center, (width/2), (height/10) + 50, renderer);
+    msPhysics.Display(Center, (width/2), (height/10) + 70, renderer);
+
+    // Elapsed Time
+    SDLText elapsedT = SDLText(FloatToString((elapsedTime), 2) + "s - Elapsed Time", 12, textCol, fontPath, renderer);
+    elapsedT.Display(Center, (width/2), (height/10) + 85, renderer);
+
+    // Particle Count
+    SDLText numParticles = SDLText(std::to_string(particleCount) + " - Particles", 12, textCol, fontPath, renderer);
+    numParticles.Display(Center, (width/2), (height/10) + 100, renderer);
 
     // Simulation Title
-    SDLText title = SDLText(simTitle, 50, titleCol, fontPath, renderer);
+    SDLText title = SDLText(*simTitle, 50, titleCol, fontPath, renderer);
     title.Display(Center, (width/2), (height/10), renderer);
+
+    // Collision Physics Information
+    SDLText colPhy = SDLText(*collPhysicsType, 15, titleCol, fontPath, renderer);
+    colPhy.Display(Center, (width/2), (height/10) + 35, renderer);
 }
 
 void Framework::SaveFrame(std::string& simName, int frameNumber){

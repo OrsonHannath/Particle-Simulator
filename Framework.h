@@ -35,7 +35,7 @@ public:
 
     void SaveFrame(std::string& simName, int frameNumber); // Saves the current frame to file
 
-    void UpdateTextInformation(float deltaTime, int physicsSteps, std::string simTitle, std::string &fontPath);
+    void UpdateTextInformation(float deltaTime, int physicsSteps, float elapsedTime, std::string* collPhysicsType, std::string* simTitle, int particleCount, std::string &fontPath);
 
     int GetWidth();
     int GetHeight();

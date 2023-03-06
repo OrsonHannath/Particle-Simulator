@@ -25,18 +25,24 @@
  */
 
 // Particle Simulator Settings
-ParticleSimulatorSettings simulatorSettings;
+ParticleSimulatorSettings* simulatorSettings;
 
 // Rendering Settings
 RenderType renderType = Saved;
 int renderFPS = 60;
 int frameNum = 0;
-int renderRuntime = 20; // Time to run simulation in seconds (Time passed after all particles spawned)
+int renderRuntime = 60; // Time to run simulation in seconds (Time passed after all particles spawned)
+
+// Loading Settings
+bool loadSettingsFile = false;
+bool saveSettings = true; // Save settings to file if not loading settings
+std::string settingsFilePath = R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\cmake-build-debug\SimulatorSettings\Fountain500.txt)";
 
 // Variables
 int time_ = 0;
 int timeOfLastSpawn = 0;
 float timeSinceAllSpawned = 0;
+float elapsedTime = 0;
 bool allSpawned = false;
 SDL_Event mainEvent;
 HWND windowHandler;
@@ -45,9 +51,16 @@ std::string fontPath = R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\font
 int main(int argc, char* args[]) {
 
     // Create the particle simulator settings
-    simulatorSettings = ParticleSimulatorSettings(R"(C:\Users\User\Desktop\Portfolio\ParticleSimulator\cmake-build-debug\SimulatorSettings\Fountain500.txt)");
-    //simulatorSettings = ParticleSimulatorSettings();
-    //simulatorSettings.SaveSimulatorSettings();
+    if (loadSettingsFile){
+
+        simulatorSettings = new ParticleSimulatorSettings(&settingsFilePath);
+    }else{
+
+        simulatorSettings = new ParticleSimulatorSettings();
+        if (saveSettings){
+            simulatorSettings->SaveSimulatorSettings();
+        }
+    }
 
     // Initialize the SDL_TTF
     if (TTF_Init() == -1){
@@ -55,18 +68,19 @@ int main(int argc, char* args[]) {
     }
 
     // Create the framework class/object
-    Framework fw(simulatorSettings.viewWidth, simulatorSettings.viewHeight);
+    Framework fw(simulatorSettings->viewWidth, simulatorSettings->viewHeight);
 
     // Create an event variable
     SDL_Event event;
 
     // Create a new Particle Generator
-    ParticleGenerator particleGenerator = ParticleGenerator(simulatorSettings.numOfParticles, &simulatorSettings.gravity, &fw);
+    ParticleGenerator particleGenerator = ParticleGenerator(simulatorSettings->numOfParticles, &simulatorSettings->gravity, &fw);
 
     // If Generation is Instant Call to Instantly Generate Particles
-    if(simulatorSettings.generationType == Instant) {
-        particleGenerator.InstantParticleGeneration(&simulatorSettings);
+    if(simulatorSettings->generationType == Instant) {
+        particleGenerator.InstantParticleGeneration(simulatorSettings);
         allSpawned = true;
+        std::cout << "All Particles Spawned!" << std::endl;
     }
 
     // Check to see if the window is ever closed and if so terminate the program
@@ -86,29 +100,38 @@ int main(int argc, char* args[]) {
             deltaTime = 1.0/renderFPS;
         }
 
+        // Update elapsed time
+        elapsedTime += deltaTime;
+
         // If all particles have been spawned increment the timeSinceAllSpawned
         if (allSpawned){
             timeSinceAllSpawned += deltaTime;
+
+            // Every 5 seconds of render time display amount of render time remaining
+            if((int)(renderRuntime - timeSinceAllSpawned) % 5 == 0){
+                std::cout << (int)(renderRuntime - timeSinceAllSpawned) << "s Remaining" << std::endl;
+            }
         }
 
         // Update background text information
-        fw.UpdateTextInformation(deltaTimeTrue, simulatorSettings.physicsSteps, simulatorSettings.simName, fontPath);
+        std::string colTypeString = EnumToString(simulatorSettings->collisionPhysicsType);
+        fw.UpdateTextInformation(deltaTimeTrue, simulatorSettings->physicsSteps, elapsedTime, &colTypeString, &simulatorSettings->simName, particleGenerator.GetParticleCount(), fontPath);
 
         // If Gradual Generation Setting Gradually Generate Particles
-        if(simulatorSettings.generationType == Gradual) {
-            particleGenerator.GradualParticleGeneration((int &)timeOfLastSpawn, time_, &simulatorSettings);
+        if(simulatorSettings->generationType == Gradual) {
+            particleGenerator.GradualParticleGeneration((int &)timeOfLastSpawn, time_, simulatorSettings);
 
-            if(particleGenerator.GetParticleCount() >= simulatorSettings.numOfParticles){
+            if(particleGenerator.GetParticleCount() >= simulatorSettings->numOfParticles){
 
                 allSpawned = true;
             }
         }
 
         // Update the Particles
-        particleGenerator.UpdateParticles(deltaTime, simulatorSettings.collisionPhysicsType,
-                                          simulatorSettings.physicsSteps, simulatorSettings.shouldRender,
-                                          simulatorSettings.gridSpaceCols, simulatorSettings.gridSpacesRows,
-                                          simulatorSettings.showImpact);
+        particleGenerator.UpdateParticles(deltaTime, simulatorSettings->collisionPhysicsType,
+                                          simulatorSettings->physicsSteps, simulatorSettings->shouldRender,
+                                          simulatorSettings->gridSpaceCols, simulatorSettings->gridSpacesRows,
+                                          simulatorSettings->showImpact);
 
         // Update Graphics
         if(renderType == Realtime){
@@ -117,7 +140,7 @@ int main(int argc, char* args[]) {
         }else if (renderType == Saved){
 
             fw.GraphicsUpdate();
-            fw.SaveFrame(simulatorSettings.simName, frameNum);
+            fw.SaveFrame(simulatorSettings->simName, frameNum);
             frameNum++;
         }
 

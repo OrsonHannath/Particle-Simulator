@@ -5,12 +5,12 @@
 #include "ParticleSimulatorSettings.h"
 #include "Enumerators.h"
 
-ParticleSimulatorSettings::ParticleSimulatorSettings(std::string settingsLocation) {
+ParticleSimulatorSettings::ParticleSimulatorSettings(std::string* settingsLocation) {
 
     FILE* saveFile;
-    fopen_s(&saveFile, (settingsLocation).c_str(), "r");
+    fopen_s(&saveFile, (settingsLocation)->c_str(), "r");
 
-    if (access(settingsLocation.c_str(), F_OK) == 0) {
+    if (access(settingsLocation->c_str(), F_OK) == 0) {
 
         //std::cout << "File Exists" << std::endl;
     } else {
