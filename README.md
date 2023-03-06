@@ -11,3 +11,16 @@ Sweep and Prune looks for overlapping intervals along the X-Axis. If any particl
 ### Uniform Grid Space Partitioning
 Uniform Grid Space Partitioning splits the screen into grid partitions all of which track the particles contained. All particles from within a partition check for collisions with one another.
 
+## Particle Simulation Examples
+All examples have their simulation settings saved within the simulator_settings folder.
+### Bouncy100 - Large Particles
+
+### Bouncy500 - Random Particles
+
+### Fountain500
+
+### Fountain500 - Medium Particles
+
+### Fountain750 - Medium Particles
+
+### Fountain1000 - Medium Particles
