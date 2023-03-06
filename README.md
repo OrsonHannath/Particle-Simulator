@@ -17,7 +17,7 @@ All examples have their simulation settings saved within the simulator_settings 
 
 ### Bouncy500 - Random Particles
 
-### Fountain500
+### Fountain500 - Tiny Particles
 
 ### Fountain500 - Medium Particles
 
