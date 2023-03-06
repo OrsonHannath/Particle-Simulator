@@ -19,11 +19,11 @@ public:
     ParticleSimulatorSettings()= default;
     ParticleSimulatorSettings(std::string* settingsLocation);
 
-    std::string simName = "Fountain500_Medium";
+    std::string simName = "Fountain750_MediumX";
 
     int viewWidth = 1200;
     int viewHeight = 600;
-    Vector2 gravity = Vector2(0, -9.8); // Gravity Breaks Simulation
+    Vector2 gravity = Vector2(0, -9.8);
 
     CollisionPhysicsTypes collisionPhysicsType = UniformGridSpacePartitioning;
     GenerationTypes generationType = Gradual;
@@ -33,19 +33,19 @@ public:
     bool shouldRender = true; // Should the particles be rendered
     bool detailedParticles = true; // Should particles be spawned with all parameters set
     bool showImpact = false; // Should particles flash on impact
-    int numOfParticles = 500; // Number of particles to spawn in
-    float spawnsPerSecond = 50; // Number of particles to spawn per second when in gradual mode
+    int numOfParticles = 750; // Number of particles to spawn in
+    float spawnsPerSecond = 75; // Number of particles to spawn per second when in gradual mode
     int gridSpaceCols = 12; // Number of Grid space Columns
     int gridSpacesRows = 6; // Number of Grid Space Rows
     Colour specificColour = Colour(128, 24, 172, 255); // Colour for specific setting
-    Colour lerpStartColour = Colour(30, 10, 180, 255); // Colour to start lerp at
+    Colour lerpStartColour = Colour(30, 10, 100, 255); // Colour to start lerp at
     Colour lerpEndColour = Colour(30, 10, 255, 255); // Colour to end lerp at
 
-    Vector4 positionRange = Vector4(-(viewWidth/2.0) + 10, (viewHeight/4.0), -(viewWidth/2.0) + 10, (viewHeight/4.0));
-    Vector4 velocityRange = Vector4(500, -1, 500, 1);
-    Vector2 sizeRange = Vector2(8, 8);
-    Vector2 massRange = Vector2(10, 10);
-    Vector2 elasticityRange = Vector2(0.01, 0.02);
+    Vector4 positionRange = Vector4(-(viewWidth/2), (viewHeight/4), -(viewWidth/2), (viewHeight/4));
+    Vector4 velocityRange = Vector4(200, 0, 200, 0);
+    Vector2 sizeRange = Vector2(12, 12);
+    Vector2 massRange = Vector2(25, 25);
+    Vector2 elasticityRange = Vector2(0.000001, 0.000001);
     Vector2 frictionRange = Vector2(0.000001, 0.000001);
 
     void SaveSimulatorSettings();
