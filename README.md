@@ -14,19 +14,19 @@ Uniform Grid Space Partitioning splits the screen into grid partitions all of wh
 ## Particle Simulation Examples
 All examples have their simulation settings saved within the simulator_settings folder and their renders saved within the example_renders folder.
 ### Bouncy100 - Large Particles
-[![Bouncy500 - Random Particles](https://img.youtube.com/vi/IkYRuh0KE_c/0.jpg)](https://www.youtube.com/watch?v=IkYRuh0KE_c)
+[![Bouncy500 - Random Particles](example_renders/gifs/Bouncy100_Large.gif)](https://www.youtube.com/watch?v=IkYRuh0KE_c)
 
 ### Bouncy500 - Random Particles
-[![Bouncy500 - Random Particles](https://img.youtube.com/vi/8M3sWO2O0oU/0.jpg)](https://www.youtube.com/watch?v=8M3sWO2O0oU)
+[![Bouncy500 - Random Particles](example_renders/gifs/Bouncy500_Random.gif)](https://www.youtube.com/watch?v=8M3sWO2O0oU)
 
 ### Fountain500 - Tiny Particles
-[![Fountain500 - Tiny Particles](https://img.youtube.com/vi/njlgn0mS9-k/0.jpg)](https://www.youtube.com/watch?v=njlgn0mS9-k)
+[![Fountain500 - Tiny Particles](example_renders/gifs/Fountain500_Tiny.gif)](https://www.youtube.com/watch?v=njlgn0mS9-k)
 
 ### Fountain500 - Medium Particles
-[![Fountain500 - Medium Particles](https://img.youtube.com/vi/wKCKQfwS3ts/0.jpg)](https://www.youtube.com/watch?v=wKCKQfwS3ts)
+[![Fountain500 - Medium Particles](example_renders/gifs/Fountain500_Medium.gif)](https://www.youtube.com/watch?v=wKCKQfwS3ts)
 
 ### Fountain750 - Medium Particles
-[![Fountain750 - Medium Particles](https://img.youtube.com/vi/76neepVBK1A/0.jpg)](https://www.youtube.com/watch?v=76neepVBK1A)
+[![Fountain750 - Medium Particles](example_renders/gifs/Fountain750_Medium.gif)](https://www.youtube.com/watch?v=76neepVBK1A)
 
 ### Fountain1000 - Medium Particles
-[![Fountain1000 - Medium Particles](https://img.youtube.com/vi/JUanK4E5BLk/0.jpg)](https://www.youtube.com/watch?v=JUanK4E5BLk)
+[![Fountain1000 - Medium Particles](example_renders/gifs/Fountain1000_Medium.gif)](https://www.youtube.com/watch?v=JUanK4E5BLk)
