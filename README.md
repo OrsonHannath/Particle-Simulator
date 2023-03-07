@@ -18,22 +18,22 @@ All examples have their simulation settings saved within the simulator_settings 
 ### Bouncy100 - Large Particles - [Link](https://www.youtube.com/watch?v=IkYRuh0KE_c)
 [![Bouncy500 - Random Particles](example_renders/gifs/Bouncy100_Large.gif)](https://www.youtube.com/watch?v=IkYRuh0KE_c)
 
-### Bouncy500 - Random Particles - [Link]([https://www.youtube.com/watch?v=IkYRuh0KE_c](https://www.youtube.com/watch?v=8M3sWO2O0oU))
+### Bouncy500 - Random Particles - [Link](https://www.youtube.com/watch?v=8M3sWO2O0oU)
 https://www.youtube.com/watch?v=8M3sWO2O0oU
 [![Bouncy500 - Random Particles](example_renders/gifs/Bouncy500_Random.gif)](https://www.youtube.com/watch?v=8M3sWO2O0oU)
 
-### Fountain500 - Tiny Particles - [Link]([https://www.youtube.com/watch?v=IkYRuh0KE_c](https://www.youtube.com/watch?v=njlgn0mS9-k))
+### Fountain500 - Tiny Particles - [Link](https://www.youtube.com/watch?v=njlgn0mS9-k)
 https://www.youtube.com/watch?v=njlgn0mS9-k
 [![Fountain500 - Tiny Particles](example_renders/gifs/Fountain500_Tiny.gif)](https://www.youtube.com/watch?v=njlgn0mS9-k)
 
-### Fountain500 - Medium Particles - [Link]([https://www.youtube.com/watch?v=IkYRuh0KE_c](https://www.youtube.com/watch?v=wKCKQfwS3ts))
+### Fountain500 - Medium Particles - [Link](https://www.youtube.com/watch?v=wKCKQfwS3ts)
 https://www.youtube.com/watch?v=wKCKQfwS3ts
 [![Fountain500 - Medium Particles](example_renders/gifs/Fountain500_Medium.gif)](https://www.youtube.com/watch?v=wKCKQfwS3ts)
 
-### Fountain750 - Medium Particles - [Link]([https://www.youtube.com/watch?v=IkYRuh0KE_c](https://www.youtube.com/watch?v=76neepVBK1A))
+### Fountain750 - Medium Particles - [Link](https://www.youtube.com/watch?v=76neepVBK1A)
 https://www.youtube.com/watch?v=76neepVBK1A
 [![Fountain750 - Medium Particles](example_renders/gifs/Fountain750_Medium.gif)](https://www.youtube.com/watch?v=76neepVBK1A)
 
-### Fountain1000 - Medium Particles - [Link]([https://www.youtube.com/watch?v=IkYRuh0KE_c](https://www.youtube.com/watch?v=JUanK4E5BLk))
+### Fountain1000 - Medium Particles - [Link](https://www.youtube.com/watch?v=JUanK4E5BLk)
 https://www.youtube.com/watch?v=JUanK4E5BLk
 [![Fountain1000 - Medium Particles](example_renders/gifs/Fountain1000_Medium.gif)](https://www.youtube.com/watch?v=JUanK4E5BLk)
