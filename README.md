@@ -13,7 +13,8 @@ Uniform Grid Space Partitioning splits the screen into grid partitions all of wh
 
 ## Particle Simulation Examples
 All examples have their simulation settings saved within the simulator_settings folder and their renders saved within the example_renders folder.
-*note: Previews below may take time to load links to videos also provided.
+
+**_NOTE:_** Previews below may take time to load links to videos also provided.
 
 ### Bouncy100 - Large Particles - [Link](https://www.youtube.com/watch?v=IkYRuh0KE_c)
 [![Bouncy500 - Random Particles](example_renders/gifs/Bouncy100_Large.gif)](https://www.youtube.com/watch?v=IkYRuh0KE_c)
